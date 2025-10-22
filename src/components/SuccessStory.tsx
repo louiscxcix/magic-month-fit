@@ -1,6 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Award, TrendingUp, Users, Target } from "lucide-react";
-import transformationImg from "@/assets/transformation.jpg";
 
 const SuccessStory = () => {
   const achievements = [
@@ -39,7 +38,7 @@ const SuccessStory = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mb-16">
-          <div className="space-y-6 animate-fade-in order-2 lg:order-1">
+          <div className="space-y-6 animate-fade-in">
             <div className="space-y-4">
               <h3 className="font-bebas text-3xl text-foreground">THE BEGINNING</h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -68,14 +67,7 @@ const SuccessStory = () => {
             </div>
           </div>
 
-          <div className="space-y-6 order-1 lg:order-2">
-            <div className="rounded-lg overflow-hidden shadow-elegant animate-fade-in">
-              <img 
-                src={transformationImg} 
-                alt="Magic Mathis transformation before and after" 
-                className="w-full h-auto object-cover"
-              />
-            </div>
+          <div className="space-y-6">
             <Card className="bg-card border-border">
               <CardContent className="p-8">
                 <div className="grid grid-cols-2 gap-6">
