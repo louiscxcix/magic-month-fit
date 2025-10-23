@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
@@ -11,17 +12,20 @@ const signupSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
   email: z.string().trim().email("Invalid email address").max(255),
   phone: z.string().trim().min(10, "Phone number must be at least 10 characters").max(20),
+  plan: z.string().min(1, "Please select a pricing plan"),
 });
 
 interface SignupDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  selectedPlan?: string;
 }
 
-const SignupDialog = ({ open, onOpenChange }: SignupDialogProps) => {
+const SignupDialog = ({ open, onOpenChange, selectedPlan }: SignupDialogProps) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [plan, setPlan] = useState(selectedPlan || "");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
@@ -30,7 +34,7 @@ const SignupDialog = ({ open, onOpenChange }: SignupDialogProps) => {
     
     try {
       // Validate input
-      const validated = signupSchema.parse({ name, email, phone });
+      const validated = signupSchema.parse({ name, email, phone, plan });
       
       setLoading(true);
 
@@ -38,7 +42,8 @@ const SignupDialog = ({ open, onOpenChange }: SignupDialogProps) => {
         body: { 
           name: validated.name, 
           email: validated.email, 
-          phone: validated.phone 
+          phone: validated.phone,
+          plan: validated.plan
         },
       });
 
@@ -53,6 +58,7 @@ const SignupDialog = ({ open, onOpenChange }: SignupDialogProps) => {
       setName("");
       setEmail("");
       setPhone("");
+      setPlan("");
       onOpenChange(false);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -117,6 +123,19 @@ const SignupDialog = ({ open, onOpenChange }: SignupDialogProps) => {
               required
               maxLength={20}
             />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="plan">Select Program</Label>
+            <Select value={plan} onValueChange={setPlan} required>
+              <SelectTrigger id="plan" className="bg-background">
+                <SelectValue placeholder="Choose your program" />
+              </SelectTrigger>
+              <SelectContent className="bg-background z-50">
+                <SelectItem value="essential">Essential - €20/month</SelectItem>
+                <SelectItem value="elite">Elite - €40/month</SelectItem>
+                <SelectItem value="premium">Premium - €60/month</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <Button 
             type="submit" 

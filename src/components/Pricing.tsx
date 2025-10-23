@@ -1,8 +1,17 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import SignupDialog from "@/components/SignupDialog";
 
 const Pricing = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState("");
+  const handleGetStarted = (planName: string) => {
+    setSelectedPlan(planName.toLowerCase());
+    setDialogOpen(true);
+  };
+
   const plans = [
     {
       name: "Essential",
@@ -107,6 +116,7 @@ const Pricing = () => {
 
               <CardFooter>
                 <Button 
+                  onClick={() => handleGetStarted(plan.name)}
                   className={`w-full text-lg font-bold ${
                     plan.popular 
                       ? 'bg-gradient-accent hover:opacity-90' 
@@ -125,6 +135,8 @@ const Pricing = () => {
           All plans are billed monthly and can be cancelled at any time. No hidden fees or long-term contracts.
         </p>
       </div>
+
+      <SignupDialog open={dialogOpen} onOpenChange={setDialogOpen} selectedPlan={selectedPlan} />
     </section>
   );
 };

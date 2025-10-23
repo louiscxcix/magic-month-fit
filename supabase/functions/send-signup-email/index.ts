@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@2.0.0";
+import { Resend } from "https://esm.sh/resend@3.2.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -12,6 +12,7 @@ interface SignupRequest {
   name: string;
   email: string;
   phone: string;
+  plan: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -21,12 +22,12 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { name, email, phone }: SignupRequest = await req.json();
+    const { name, email, phone, plan }: SignupRequest = await req.json();
     
     console.log("Processing signup request for:", email);
 
     // Validate inputs
-    if (!name || !email || !phone) {
+    if (!name || !email || !phone || !plan) {
       throw new Error("Missing required fields");
     }
 
@@ -40,6 +41,7 @@ const handler = async (req: Request): Promise<Response> => {
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Selected Program:</strong> ${plan}</p>
         <p>Contact this person to discuss their transformation journey!</p>
       `,
     });
