@@ -6,7 +6,8 @@ const Pricing = () => {
   const plans = [
     {
       name: "Essential",
-      price: "149",
+      price: "20",
+      currency: "€",
       description: "Perfect for getting started on your fitness journey",
       features: [
         "Custom workout plan",
@@ -19,7 +20,8 @@ const Pricing = () => {
     },
     {
       name: "Elite",
-      price: "249",
+      price: "40",
+      currency: "€",
       description: "Most popular choice for serious transformations",
       features: [
         "Fully personalized program",
@@ -34,7 +36,8 @@ const Pricing = () => {
     },
     {
       name: "Premium",
-      price: "399",
+      price: "60",
+      currency: "€",
       description: "Ultimate transformation experience",
       features: [
         "Everything in Elite",
@@ -50,7 +53,7 @@ const Pricing = () => {
   ];
 
   return (
-    <section className="py-24 bg-background">
+    <section id="pricing" className="py-24 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="font-bebas text-5xl sm:text-6xl text-foreground mb-4">
@@ -84,7 +87,7 @@ const Pricing = () => {
                 <CardTitle className="text-3xl font-bebas mb-2">{plan.name}</CardTitle>
                 <CardDescription className="mb-4">{plan.description}</CardDescription>
                 <div className="mt-4">
-                  <span className="text-5xl font-bebas text-foreground">${plan.price}</span>
+                  <span className="text-5xl font-bebas text-foreground">{plan.currency}{plan.price}</span>
                   <span className="text-muted-foreground">/month</span>
                 </div>
               </CardHeader>

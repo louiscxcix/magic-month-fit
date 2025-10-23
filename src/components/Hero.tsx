@@ -1,8 +1,19 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import SignupDialog from "@/components/SignupDialog";
 
 const Hero = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const scrollToPricing = () => {
+    const pricingSection = document.getElementById("pricing");
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -31,6 +42,7 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4">
             <Button 
               size="lg" 
+              onClick={() => setDialogOpen(true)}
               className="bg-secondary hover:bg-secondary/90 text-secondary-foreground text-lg font-bold shadow-glow group"
             >
               Start Your Journey
@@ -38,14 +50,16 @@ const Hero = () => {
             </Button>
             <Button 
               size="lg" 
-              variant="outline"
-              className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary text-lg font-semibold"
+              onClick={scrollToPricing}
+              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground text-lg font-bold shadow-glow group"
             >
               View Programs
             </Button>
           </div>
         </div>
       </div>
+
+      <SignupDialog open={dialogOpen} onOpenChange={setDialogOpen} />
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
