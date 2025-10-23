@@ -31,8 +31,8 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("Missing required fields");
     }
 
-    // Send email notification
-    const emailResponse = await resend.emails.send({
+    // Send notification email to business owner
+    const notificationEmail = await resend.emails.send({
       from: "Magic Mathis Coaching <onboarding@resend.dev>",
       to: ["delivered@resend.dev"], // Replace with your actual email
       subject: "New Signup - Magic Mathis Coaching",
@@ -46,7 +46,25 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("Email sent successfully:", emailResponse);
+    console.log("Notification email sent:", notificationEmail);
+
+    // Send confirmation email to the user
+    const confirmationEmail = await resend.emails.send({
+      from: "Magic Mathis Coaching <onboarding@resend.dev>",
+      to: [email],
+      subject: "Welcome to Magic Mathis Coaching!",
+      html: `
+        <h1>Thank You for Signing Up, ${name}!</h1>
+        <p>We're excited to start your transformation journey with you.</p>
+        <p><strong>Your Selected Program:</strong> ${plan}</p>
+        <p>We'll be in touch soon to discuss your personalized coaching plan.</p>
+        <p>If you have any questions in the meantime, feel free to reach out to us.</p>
+        <br>
+        <p>Best regards,<br>Magic Mathis Coaching Team</p>
+      `,
+    });
+
+    console.log("Confirmation email sent:", confirmationEmail);
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
